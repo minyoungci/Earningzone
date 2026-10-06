@@ -1,0 +1,4 @@
+-r requirements.txt
+pywebview==6.2.1
+pyinstaller==6.21.0
+pywin32==312; sys_platform == "win32"

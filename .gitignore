@@ -1,0 +1,49 @@
+# Local credentials and account state
+.env
+.env.*
+!.env.example
+.access_token.txt
+.tunnel_url.txt
+.sim_state*.json
+.paper_state*.json
+.broker_state.json
+
+# Generated third-party listing data; regenerate locally when permitted
+/tossbot/stock_master.json
+
+# Personal financial archive, collected records, and internal reports
+/docs/financial/
+/docs/*
+!/docs/public/
+/discord_collected/
+/discord_*.md
+/discord_collect.py
+/INSIGHTS.md
+/*_REPORT.md
+
+# Local tooling, backups, screenshots, and generated releases
+/.tmp/
+/.ds-sync/
+/.codex/
+/.claude/
+/.omc/
+/.design-sync/
+/ds-bundle/
+/plans/
+/screenshots/
+/SCRATCHPAD.md
+/build/
+/dist/
+/*.spec
+/*.zip
+/BUILD_MANIFEST.json
+/web/dist/
+node_modules/
+__pycache__/
+*.py[cod]
+*.log
+.pytest_cache/
+.vite/
+.venv/
+.guide_sections/
+.ts_sections/

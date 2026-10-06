@@ -1,0 +1,84 @@
+.study-workbench, .financial-library { color: var(--ink); }
+.study-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+.study-heading h1 { font-size: clamp(24px, 3vw, 32px); font-weight: 700; letter-spacing: -.04em; }
+.study-heading h2 { font-size: 20px; font-weight: 700; letter-spacing: -.03em; }
+.study-heading h3, .study-panel h3 { font-size: 16px; font-weight: 650; }
+.study-heading p, .study-panel p, .study-method p { color: var(--muted); font-size: 13px; line-height: 1.7; margin-top: 6px; }
+.study-eyebrow { color: var(--accent); font-size: 10px; font-weight: 700; letter-spacing: .08em; }
+.study-link, .study-method a, .financial-markdown a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+.study-toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: end; padding: 14px 0; border-top: 1px solid var(--line); }
+.study-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; color: var(--muted); font-size: 12px; }
+.study-field > span { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; }
+.study-field small { font-size: 10px; }
+.study-field input, .study-field select { width: 100%; min-width: 0; padding: 9px 10px; height: 40px; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+.study-field input:focus-visible, .study-field select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.study-checks { display: flex; flex-wrap: wrap; gap: 12px; padding: 10px 0; }
+.study-check { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; cursor: pointer; min-height: 32px; }
+.study-check input { accent-color: var(--accent); width: 15px; height: 15px; }
+.study-caption { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 12px 0; overflow-wrap: anywhere; }
+.study-caption strong, .study-error { color: var(--negative); }
+.study-error { font-size: 13px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
+.study-error button { text-decoration: underline; margin-left: 8px; }
+.study-metrics { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+.study-metrics > div { background: var(--surface-soft); border-radius: 10px; padding: 15px; }
+.study-metrics span, .study-metrics strong { display: block; }
+.study-metrics span { font-size: 11px; color: var(--muted); }
+.study-metrics strong { font-size: 17px; margin-top: 7px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.study-analysis-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.study-panel { border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.study-observation { padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+.study-observation small { font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+.study-details { margin: 18px 0; }
+.study-details summary { font-size: 13px; cursor: pointer; padding: 10px 0; }
+.study-table-wrap { max-width: 100%; overflow-x: auto; margin: 12px 0; }
+.study-table-wrap table { width: 100%; font-size: 12px; border-collapse: collapse; }
+.study-table-wrap :is(th,td) { text-align: left; padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.study-table-wrap th { background: var(--surface-soft); font-weight: 650; }
+.study-details td { white-space: nowrap; }
+.study-scenario { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 20px; }
+.study-tabs { display: flex; gap: 4px; flex-wrap: wrap; padding: 4px; border-radius: 10px; background: var(--surface-soft); width: fit-content; }
+.study-tabs button { padding: 9px 12px; border-radius: 7px; color: var(--muted); font-size: 12px; }
+.study-tabs button[aria-pressed="true"] { background: var(--surface); color: var(--accent); box-shadow: 0 1px 3px #0001; font-weight: 650; }
+.study-fields { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; margin: 18px 0; }
+.study-scenario h4 { font-size: 13px; font-weight: 650; margin-top: 24px; }
+.study-levels { display: flex; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.study-levels span { background: var(--surface-soft); padding: 9px 12px; border-radius: 8px; color: var(--muted); }
+.study-levels strong { color: var(--ink); margin-left: 5px; }
+.financial-library { display: flex; flex-direction: column; gap: 24px; }
+.library-heading { margin: 0; }
+.study-library-meta { display: flex; flex-wrap: wrap; gap: 10px; color: var(--muted); font-size: 12px; }
+.study-library-meta span { border: 1px solid var(--line); border-radius: 20px; padding: 6px 12px; }
+.study-methods { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px; }
+.study-method h2 { font-size: 15px; font-weight: 650; margin: 7px 0; }
+.study-method a { display: block; font-size: 11px; margin-top: 7px; }
+.library-search { max-width: 500px; margin-bottom: 24px; }
+.study-reader-layout { display: grid; grid-template-columns: 230px minmax(0,1fr); gap: 30px; }
+.study-doc-nav { max-height: 850px; overflow-y: auto; padding-right: 8px; }
+.study-doc-nav h3 { font-size: 11px; color: var(--muted); margin: 18px 0 8px; }
+.study-doc-nav button { display: block; text-align: left; width: 100%; font-size: 12px; padding: 11px 12px; border-radius: 8px; margin: 3px 0; }
+.study-doc-nav button.is-active { background: var(--accent-soft); color: var(--accent); font-weight: 650; }
+.study-doc-nav small { display: block; font-size: 10px; color: var(--muted); margin-top: 4px; }
+.study-document { min-width: 0; }
+.study-library-browser { scroll-margin-top: 110px; }
+.study-document-meta { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; border-radius: 10px; background: var(--surface-soft); font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+.study-document-meta strong { color: var(--ink); font-size: 13px; }
+.study-document-meta a { color: var(--accent); }
+.financial-markdown { font-size: 13px; line-height: 1.9; overflow-wrap: anywhere; }
+.financial-markdown :is(h2,h3,h4,h5,h6) { font-weight: 700; color: var(--ink); margin: 28px 0 12px; line-height: 1.5; }
+.financial-markdown h2 { font-size: 21px; }.financial-markdown h3 { font-size: 17px; }
+.financial-markdown p { margin: 10px 0; }
+.financial-markdown :is(ul,ol) { padding-left: 22px; margin: 12px 0; }
+.financial-markdown ul { list-style: disc; }.financial-markdown ol { list-style: decimal; }
+.financial-markdown li { margin-bottom: 6px; }
+.financial-markdown blockquote { border-left: 3px solid var(--accent); padding: 10px 15px; background: var(--surface-soft); margin: 16px 0; }
+.financial-markdown img { width: auto; max-width: 100%; border: 1px solid var(--line); border-radius: 8px; margin: 16px auto; }
+.financial-markdown pre { overflow-x: auto; padding: 16px; border-radius: 8px; background: var(--surface-soft); }
+.financial-markdown code { font-size: 12px; }
+.financial-markdown hr { border-color: var(--line); margin: 25px 0; }
+.study-gallery { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; }
+.study-gallery a { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface-soft); }
+.study-gallery img { width: 100%; height: 190px; object-fit: contain; background: #14161d; }
+.study-gallery strong, .study-gallery small { display: block; padding: 0 14px; font-size: 12px; }
+.study-gallery strong { margin-top: 12px; }.study-gallery small { color: var(--muted); font-size: 10px; margin: 8px 0 14px; }
+@media(max-width:1100px) { .study-methods { grid-template-columns: repeat(2,minmax(0,1fr)); } .study-reader-layout { grid-template-columns: 190px minmax(0,1fr); gap: 20px; } }
+@media(max-width:700px) { .study-analysis-grid, .study-reader-layout { grid-template-columns: minmax(0,1fr); } .study-metrics, .study-fields, .study-gallery { grid-template-columns: repeat(2,minmax(0,1fr)); } .study-doc-nav { max-height: 240px; border-bottom: 1px solid var(--line); padding-bottom: 12px; } .study-toolbar > .study-field { flex: 1 1 40%; } .study-methods { grid-template-columns: minmax(0,1fr); } .study-metrics strong { font-size: 15px; } .study-workbench.glass { padding: 16px; } }

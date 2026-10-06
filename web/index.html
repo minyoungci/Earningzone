@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- FOUC 방지: 저장된 테마를 첫 페인트 전에 적용 -->
+    <script>
+      document.documentElement.dataset.theme='clean';try{if(localStorage.getItem('tossbot-theme')==='wallet')document.documentElement.dataset.theme='wallet'}catch(e){}
+    </script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+      rel="stylesheet"
+    />
+    <title>tossbot · 투자 워크스페이스</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 모션 이징 토큰 — 빌트인보다 강한 커스텀 커브(Emil Kowalski, animations.dev) */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    @apply bg-slate-950 text-slate-100 antialiased;
+    font-family: Pretendard, Inter, system-ui, sans-serif;
+  }
+  /* 키보드 포커스만 가시화(:focus-visible) — 마우스 클릭엔 안 뜬다. craft 디테일. */
+  :where(a, button, [role='button'], input, select, textarea):focus-visible {
+    outline: 2px solid rgba(129, 140, 248, 0.65);
+    outline-offset: 2px;
+    border-radius: 10px;
+  }
+  /* 선택 영역도 브랜드 톤 — 보이지 않는 디테일의 합 */
+  ::selection { background: rgba(129, 140, 248, 0.35); }
+  h1, h2, h3 { text-wrap: balance; }
+}
+
+@layer components {
+  /* ── 재질 v2 (Emil/Apple §12) ──────────────────────────────────
+     솔리드 1px 보더 대신 반투명 헤어라인 링(box-shadow) + 레이어드 깊이 섀도.
+     상단 인셋 하이라이트 = 재질에 빛이 걸리는 모서리. 큰 표면일수록 두껍게(blur↑, 그림자↑). */
+  .glass {
+    @apply bg-white/[0.05] backdrop-blur-2xl border border-transparent rounded-3xl;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.07),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 16px 48px -16px rgba(0, 0, 0, 0.6);
+  }
+  .glass-soft {
+    @apply bg-white/[0.04] backdrop-blur-xl border border-transparent rounded-2xl;
+    box-shadow:
+      0 0 0 1px rgba(255, 255, 255, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  /* 구조 영역(사이드바)은 더 무겁고 어두운 재질 — 콘텐츠 카드와 계층 분리 */
+  .sidebar-material {
+    background: rgba(8, 11, 22, 0.55);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+  }
+  /* 상단바: 반투명 크롬 — 콘텐츠가 밑으로 스크롤됨. 하드 보더 대신 가장자리 페이드 헤어라인 */
+  .topbar-material {
+    position: relative;
+    background: linear-gradient(to bottom, rgba(6, 9, 18, 0.88), rgba(6, 9, 18, 0.62));
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+  .topbar-material::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.10) 30%, rgba(255, 255, 255, 0.10) 70%, transparent);
+  }
+  /* 모바일 하단탭: 위쪽 가장자리도 페이드 헤어라인(스크롤 엣지 이펙트) */
+  .tabbar-material { position: relative; }
+  .tabbar-material::before {
+    content: '';
+    position: absolute; left: 0; right: 0; top: 0; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.12) 30%, rgba(255, 255, 255, 0.12) 70%, transparent);
+  }
+  /* 탭바가 .glass 와 병용될 때 글래스 링/인셋 하이라이트 제거 — 이중선 방지,
+     상단 경계는 ::before 페이드 헤어라인 하나만 담당 */
+  .glass.tabbar-material { box-shadow: none; }
+  /* 마이크로 라벨 — 반투명 표면 위 vibrancy: 살짝 무겁게 + 자간 확대(Apple §15) */
+  .label-cap {
+    @apply text-[10px] font-semibold uppercase text-slate-500;
+    letter-spacing: 0.09em;
+  }
+  /* 호버는 배경 밝기만 — 보더를 만지면 v2 헤어라인 링과 겹쳐 이중선이 된다 */
+  .glass-hover {
+    transition: background-color 180ms var(--ease-out), transform 180ms var(--ease-out);
+  }
+  .glass-hover:hover { @apply bg-white/[0.10]; }
+  /* 리프트(translate)는 진짜 포인터가 있는 기기에서만 — 터치 탭 고착 방지 */
+  @media (hover: hover) and (pointer: fine) {
+    .glass-hover:hover { @apply -translate-y-0.5; }
+  }
+  .stat-num { @apply tabular-nums font-semibold tracking-tight; }
+}
+
+/* 움직이는 오로라 배경 */
+.aurora {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; background: #060912;
+}
+.aurora::before, .aurora::after, .aurora > span {
+  content: ''; position: absolute; border-radius: 50%; filter: blur(130px); opacity: 0.32;
+}
+.aurora::before {
+  width: 55vw; height: 55vw; top: -12%; left: -10%;
+  background: radial-gradient(circle, #6366f1, transparent 60%);
+  animation: float1 38s ease-in-out infinite;
+}
+.aurora::after {
+  width: 50vw; height: 50vw; bottom: -15%; right: -8%;
+  background: radial-gradient(circle, #ec4899, transparent 60%);
+  animation: float2 44s ease-in-out infinite;
+}
+.aurora > span {
+  width: 40vw; height: 40vw; top: 30%; left: 40%;
+  background: radial-gradient(circle, #22d3ee, transparent 60%);
+  animation: float3 50s ease-in-out infinite;
+}
+@keyframes float1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(8vw,10vh)} }
+@keyframes float2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-10vw,-6vh)} }
+@keyframes float3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-6vw,8vh) scale(1.15)} }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.13); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.22); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ══════════════════════════════════════════════════════════════════
+   wallet 테마 — 미니멀 솔리드 다크 (월렛 대시보드 참조 디자인)
+   · 모든 규칙은 html[data-theme="wallet"] 스코프 안에서만 동작한다.
+   · 기본(글래스) 테마는 이 블록의 영향을 전혀 받지 않는다.
+   · 기존 클래스 이름(.glass/.glass-soft/.glass-hover/.aurora)은
+     오버라이드만 하고 변경하지 않는다. 등락색(text-up/down)도 불변.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* 순수 다크 배경 (#0a0a0b) — 슬레이트 틴트 제거 */
+html[data-theme="wallet"] body {
+  background: #0a0a0b;
+}
+
+/* 움직이는 오로라 배경 제거 — 정적인 순수 다크 유지 */
+html[data-theme="wallet"] .aurora {
+  display: none;
+}
+
+/* 메인 카드: 반투명 글래스 → 솔리드 카드(#141416), 블러 제거,
+   1px 보더(#232329), radius 16px, 은은한 상단 하이라이트만 유지 */
+html[data-theme="wallet"] .glass {
+  background: #141416;
+  border: 1px solid #232329;
+  border-radius: 16px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* 서브 카드: 한 단계 밝은 솔리드(#1b1b1f), radius 12px, 블러 제거 */
+html[data-theme="wallet"] .glass-soft {
+  background: #1b1b1f;
+  border-color: #26262c;
+  border-radius: 12px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none; /* v2 헤어라인 링 제거 — 월렛은 솔리드 보더만 */
+}
+
+/* 모바일 하단탭 — 월렛에서 .glass 오버라이드(16px 라운드+사면 보더)가 풀블리드 탭바를
+   깨뜨리지 않게 예외: 라운드/보더 제거, ::before 헤어라인만 상단 경계로 남긴다 */
+html[data-theme="wallet"] .glass.tabbar-material {
+  border-radius: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+/* 필(rounded-full) 배지가 월렛 .glass-soft 의 12px 라운드에 각져 보이지 않게 예외 */
+html[data-theme="wallet"] .glass-soft.rounded-full {
+  border-radius: 9999px;
+}
+
+/* v2 재질 크롬 — 월렛에선 솔리드/무블러로 대체 */
+html[data-theme="wallet"] .sidebar-material {
+  background: #101014;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html[data-theme="wallet"] .topbar-material {
+  background: rgba(10, 10, 11, 0.94);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+html[data-theme="wallet"] .topbar-material::after,
+html[data-theme="wallet"] .tabbar-material::before {
+  background: linear-gradient(to right, transparent, #26262c 30%, #26262c 70%, transparent);
+}
+
+/* 호버: 살짝 밝아지기만 — 떠오르는 트랜스폼/글래스 하이라이트 없음 */
+html[data-theme="wallet"] .glass-hover:hover {
+  background: #1a1a20;
+  border-color: #2a2a31;
+  transform: none;
+}
+
+/* ── 모션 최소화 선호(prefers-reduced-motion) ────────────────────────────
+   장식성 무한 모션(오로라 드리프트·핑·펄스)만 정지시키고, 색/투명도/로딩 스피너는
+   유지한다("없애지 말고 부드럽게"). framer 진입 모션은 App 의
+   <MotionConfig reducedMotion="user"> 가 함께 처리. */
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before,
+  .aurora::after,
+  .aurora > span { animation: none !important; }
+  .animate-ping,
+  .animate-pulse { animation: none !important; }
+}
+
+/* 투명도 줄이기 선호(Apple §14) — 반투명 표면을 더 불투명하게, 블러 제거 */
+@media (prefers-reduced-transparency: reduce) {
+  .glass, .glass-soft, .sidebar-material, .topbar-material {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  .glass { background: rgba(13, 17, 28, 0.96); }
+  .glass-soft { background: rgba(18, 23, 36, 0.96); }
+  .sidebar-material { background: rgba(8, 11, 22, 0.97); }
+  .topbar-material { background: rgba(6, 9, 18, 0.97); }
+}
